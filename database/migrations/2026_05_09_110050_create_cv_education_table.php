@@ -13,21 +13,15 @@ return new class extends Migration
     {
         Schema::create('cv_education', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100); 
-            $table->string('username', 50)->unique();
-            $table->string('email', 100)->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            $table->string('avatar', 255)->nullable();
-            $table->string('phone_number', 20)->nullable();
-            $table->string('country', 100)->nullable();
-            $table->string('skills', 255)->nullable();
-            $table->text('about')->nullable();
-            $table->string('social_media', 255)->nullable();
-            $table->enum('role', ['admin', 'user'])->default('user');
-            $table->string('google_id')->nullable();
-            $table->string('reset_token')->nullable();
-            $table->rememberToken();
+            $table->foreignId('cv_project_id')->constrained('cv_projects')->cascadeOnDelete();
+            $table->string('institution_name', 150);
+            $table->string('degree', 100)->nullable();
+            $table->string('field_of_study', 150)->nullable();
+            $table->string('start_year', 20)->nullable();
+            $table->string('end_year', 20)->nullable();
+            $table->string('gpa', 10)->nullable();
+            $table->string('location', 150)->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
