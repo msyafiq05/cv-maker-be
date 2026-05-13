@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -56,6 +56,7 @@ class AuthController extends Controller
             ], 401);
         }
 
+        /** @var \App\Models\User $user */
         $user  = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
 
