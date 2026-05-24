@@ -24,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// Tambahkan ini untuk Google Auth
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 // ===== TEMPLATES (Public) =====
 Route::get('/templates', [TemplateController::class, 'index']);
 Route::get('/templates/{template}', [TemplateController::class, 'show']);
