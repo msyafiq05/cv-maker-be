@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CvOrganizationController;
 use App\Http\Controllers\Api\CvPersonalDetailController;
 use App\Http\Controllers\Api\CvProjectController;
 use App\Http\Controllers\Api\CvSkillController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\TemplateController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 // ===== AUTH (Public) =====
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Tambahkan ini untuk Google Auth
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
@@ -38,6 +41,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
 
     // CV Projects (CRUD)
     Route::apiResource('cv-projects', CvProjectController::class)

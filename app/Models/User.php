@@ -28,6 +28,12 @@ class User extends Authenticatable
         'role',
         'google_id',
         'reset_token',
+        'phone',
+        'country',
+        'skills',
+        'about',
+        'social_media',
+        'avatar',
     ];
 
     /**
