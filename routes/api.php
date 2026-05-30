@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\CvPersonalDetailController;
 use App\Http\Controllers\Api\CvProjectController;
 use App\Http\Controllers\Api\CvSkillController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\TemplateController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +27,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-// Tambahkan ini untuk Google Auth
+// ===== Google Auth =====
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
-// ===== TEMPLATES (Public) =====
-Route::get('/templates', [TemplateController::class, 'index']);
-Route::get('/templates/{template}', [TemplateController::class, 'show']);
 
 // ===== PROTECTED ROUTES (Butuh Login) =====
 Route::middleware('auth:sanctum')->group(function () {

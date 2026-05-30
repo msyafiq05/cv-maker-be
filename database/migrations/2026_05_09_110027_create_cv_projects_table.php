@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('cv_projects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('template_id')->nullable()->constrained('templates')->nullOnDelete();
             $table->string('judul_cv', 100)->default('Untitled Resume');
             $table->timestamps();
         });

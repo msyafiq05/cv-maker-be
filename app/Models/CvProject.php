@@ -11,7 +11,6 @@ class CvProject extends Model
 {
     protected $fillable = [
         'user_id',
-        'template_id',
         'judul_cv',
     ];
 
@@ -23,13 +22,7 @@ class CvProject extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * CV project menggunakan satu template.
-     */
-    public function template(): BelongsTo
-    {
-        return $this->belongsTo(Template::class);
-    }
+
 
     /**
      * CV project memiliki satu personal detail.

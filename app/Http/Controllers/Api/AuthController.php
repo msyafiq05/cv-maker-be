@@ -16,7 +16,7 @@ use App\Mail\ResetPasswordOtpMail;
 class AuthController extends Controller
 {
     /**
-     * Redirect ke Google (Baru)
+     * Redirect ke Google
      */
     public function redirectToGoogle()
     {
@@ -24,7 +24,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle Callback dari Google (Baru)
+     * Handle Callback dari Google
      */
     public function handleGoogleCallback()
     {
@@ -35,8 +35,7 @@ class AuthController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // Jika user sudah ada (baik terdaftar manual atau sebelumnya lewat Google)
-                // Cukup hubungkan / update google_id jika belum terisi
+                // Jika user sudah ada, hubungkan google_id jika belum terisi
                 if (empty($user->google_id)) {
                     $user->update([
                         'google_id' => $googleUser->getId(),
@@ -44,7 +43,6 @@ class AuthController extends Controller
                 }
             } else {
                 // Jika user belum ada di database, buat baru
-                // Kita gunakan Str::random(16) langsung karena model User memiliki cast 'password' => 'hashed'
                 $user = User::create([
                     'email'     => $googleUser->getEmail(),
                     'nama'      => $googleUser->getName(),
@@ -58,8 +56,8 @@ class AuthController extends Controller
             // Buat token Sanctum
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            // Lempar ke React (Ganti URL jika React kamu bukan di localhost:5173)
-            return redirect("http://localhost:5173/login?token={$token}");
+            // Redirect ke React frontend
+            return redirect(env('FRONTEND_URL', 'http://localhost:5173') . "/login?token={$token}");
 
         } catch (\Exception $e) {
             return response()->json([
