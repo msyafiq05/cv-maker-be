@@ -27,10 +27,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-// ===== Google Auth =====
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
-
 // ===== PROTECTED ROUTES (Butuh Login) =====
 Route::middleware('auth:sanctum')->group(function () {
 

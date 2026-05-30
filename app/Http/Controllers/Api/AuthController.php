@@ -8,65 +8,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetPasswordOtpMail;
 
 class AuthController extends Controller
 {
-    /**
-     * Redirect ke Google
-     */
-    public function redirectToGoogle()
-    {
-        return Socialite::driver('google')->stateless()->redirect();
-    }
-
-    /**
-     * Handle Callback dari Google
-     */
-    public function handleGoogleCallback()
-    {
-        try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
-
-            // Cari user berdasarkan email
-            $user = User::where('email', $googleUser->getEmail())->first();
-
-            if ($user) {
-                // Jika user sudah ada, hubungkan google_id jika belum terisi
-                if (empty($user->google_id)) {
-                    $user->update([
-                        'google_id' => $googleUser->getId(),
-                    ]);
-                }
-            } else {
-                // Jika user belum ada di database, buat baru
-                $user = User::create([
-                    'email'     => $googleUser->getEmail(),
-                    'nama'      => $googleUser->getName(),
-                    'google_id' => $googleUser->getId(),
-                    'username'  => explode('@', $googleUser->getEmail())[0] . Str::random(4),
-                    'password'  => Str::random(16), 
-                    'role'      => 'user',
-                ]);
-            }
-
-            // Buat token Sanctum
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            // Redirect ke React frontend
-            return redirect(env('FRONTEND_URL', 'http://localhost:5173') . "/login?token={$token}");
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Gagal login via Google',
-                'error'   => $e->getMessage()
-            ], 500);
-        }
-    }
-
     /**
      * Register user baru (Manual).
      */
