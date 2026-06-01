@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CvPersonalDetailController;
 use App\Http\Controllers\Api\CvProjectController;
 use App\Http\Controllers\Api\CvSkillController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\AdminController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // CV Projects (CRUD)
     Route::apiResource('cv-projects', CvProjectController::class)
         ->parameters(['cv-projects' => 'cvProject']);
+    Route::post('cv-projects/{cvProject}/download', [CvProjectController::class, 'incrementDownload']);
 
     // CV Sections (nested di bawah cv-projects)
     Route::prefix('cv-projects/{cvProject}')->group(function () {
@@ -72,5 +74,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/organizations', [CvOrganizationController::class, 'store']);
         Route::put('/organizations/{organization}', [CvOrganizationController::class, 'update']);
         Route::delete('/organizations/{organization}', [CvOrganizationController::class, 'destroy']);
+    });
+    
+    // ===== ADMIN ROUTES =====
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard-stats', [AdminController::class, 'dashboardStats']);
+        Route::get('/users', [AdminController::class, 'getUsers']);
+        Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
     });
 });

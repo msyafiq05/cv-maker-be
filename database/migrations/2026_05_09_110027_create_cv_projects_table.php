@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('judul_cv', 100)->default('Untitled Resume');
+            $table->unsignedInteger('download_count')->default(0);
             $table->timestamps();
         });
     }

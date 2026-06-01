@@ -34,7 +34,7 @@ class CvEducationController extends Controller
         }
 
         $validated = $request->validate([
-            'institution_name' => 'required|string|max:150',
+            'institution_name' => 'nullable|string|max:150',
             'degree'           => 'nullable|string|max:100',
             'field_of_study'   => 'nullable|string|max:150',
             'start_year'       => 'nullable|string|max:20',
@@ -62,7 +62,7 @@ class CvEducationController extends Controller
         }
 
         $validated = $request->validate([
-            'institution_name' => 'sometimes|required|string|max:150',
+            'institution_name' => 'nullable|string|max:150',
             'degree'           => 'nullable|string|max:100',
             'field_of_study'   => 'nullable|string|max:150',
             'start_year'       => 'nullable|string|max:20',

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('date_of_birth', 50);
             $table->text('address')->nullable();
             $table->string('website_url', 255)->nullable();
-            $table->string('short_description', 150)->nullable(); 
-            $table->string('foto_profil', 255)->nullable(); 
+            $table->text('short_description')->nullable(); 
+            $table->longText('foto_profil')->nullable(); 
             $table->timestamps();
         });
     }

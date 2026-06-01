@@ -34,8 +34,8 @@ class CvEmploymentHistoryController extends Controller
         }
 
         $validated = $request->validate([
-            'company_name'        => 'required|string|max:150',
-            'job_title'           => 'required|string|max:150',
+            'company_name'        => 'nullable|string|max:150',
+            'job_title'           => 'nullable|string|max:150',
             'start_year'          => 'nullable|string|max:20',
             'end_year'            => 'nullable|string|max:20',
             'company_location'    => 'nullable|string|max:150',
@@ -60,8 +60,8 @@ class CvEmploymentHistoryController extends Controller
         }
 
         $validated = $request->validate([
-            'company_name'        => 'sometimes|required|string|max:150',
-            'job_title'           => 'sometimes|required|string|max:150',
+            'company_name'        => 'nullable|string|max:150',
+            'job_title'           => 'nullable|string|max:150',
             'start_year'          => 'nullable|string|max:20',
             'end_year'            => 'nullable|string|max:20',
             'company_location'    => 'nullable|string|max:150',

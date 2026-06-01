@@ -34,8 +34,8 @@ class CvOrganizationController extends Controller
         }
 
         $validated = $request->validate([
-            'organization_name' => 'required|string|max:150',
-            'role'              => 'required|string|max:100',
+            'organization_name' => 'nullable|string|max:150',
+            'role'              => 'nullable|string|max:100',
             'start_year'        => 'nullable|string|max:20',
             'end_year'          => 'nullable|string|max:20',
             'location'          => 'nullable|string|max:150',
@@ -60,8 +60,8 @@ class CvOrganizationController extends Controller
         }
 
         $validated = $request->validate([
-            'organization_name' => 'sometimes|required|string|max:150',
-            'role'              => 'sometimes|required|string|max:100',
+            'organization_name' => 'nullable|string|max:150',
+            'role'              => 'nullable|string|max:100',
             'start_year'        => 'nullable|string|max:20',
             'end_year'          => 'nullable|string|max:20',
             'location'          => 'nullable|string|max:150',

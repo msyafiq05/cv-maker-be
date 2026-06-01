@@ -34,7 +34,7 @@ class CvSkillController extends Controller
         }
 
         $validated = $request->validate([
-            'activity_name' => 'required|string|max:150',
+            'activity_name' => 'nullable|string|max:150',
             'year'          => 'nullable|string|max:20',
             'elaboration'   => 'nullable|string',
         ]);
@@ -57,7 +57,7 @@ class CvSkillController extends Controller
         }
 
         $validated = $request->validate([
-            'activity_name' => 'sometimes|required|string|max:150',
+            'activity_name' => 'nullable|string|max:150',
             'year'          => 'nullable|string|max:20',
             'elaboration'   => 'nullable|string',
         ]);

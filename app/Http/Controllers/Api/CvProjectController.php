@@ -16,7 +16,6 @@ class CvProjectController extends Controller
     {
         $projects = $request->user()
             ->cvProjects()
-            ->with('template')
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -32,17 +31,15 @@ class CvProjectController extends Controller
     {
         $validated = $request->validate([
             'judul_cv'    => 'nullable|string|max:100',
-            'template_id' => 'nullable|exists:templates,id',
         ]);
 
         $project = $request->user()->cvProjects()->create([
             'judul_cv'    => $validated['judul_cv'] ?? 'Untitled Resume',
-            'template_id' => $validated['template_id'] ?? null,
         ]);
 
         return response()->json([
             'message' => 'CV project berhasil dibuat',
-            'data'    => $project->load('template'),
+            'data'    => $project,
         ], 201);
     }
 
@@ -57,7 +54,6 @@ class CvProjectController extends Controller
         }
 
         $cvProject->load([
-            'template',
             'personalDetail',
             'employmentHistories',
             'educations',
@@ -81,14 +77,13 @@ class CvProjectController extends Controller
 
         $validated = $request->validate([
             'judul_cv'    => 'nullable|string|max:100',
-            'template_id' => 'nullable|exists:templates,id',
         ]);
 
         $cvProject->update($validated);
 
         return response()->json([
             'message' => 'CV project berhasil diupdate',
-            'data'    => $cvProject->load('template'),
+            'data'    => $cvProject,
         ]);
     }
 
@@ -105,6 +100,24 @@ class CvProjectController extends Controller
 
         return response()->json([
             'message' => 'CV project berhasil dihapus',
+        ]);
+    }
+
+    /**
+     * Increment download count.
+     */
+    public function incrementDownload(Request $request, CvProject $cvProject): JsonResponse
+    {
+        // Allowed even if not owner, or we can restrict it. Usually anyone can download their own.
+        if ($cvProject->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $cvProject->increment('download_count');
+
+        return response()->json([
+            'message' => 'Download count incremented',
+            'download_count' => $cvProject->download_count,
         ]);
     }
 }

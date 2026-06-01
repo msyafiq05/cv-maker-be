@@ -34,38 +34,20 @@ class CvPersonalDetailController extends Controller
         }
 
         $validated = $request->validate([
-            'full_name'         => 'required|string|max:150',
-            'phone_number'      => 'required|string|max:20',
-            'email_address'     => 'required|email|max:100',
-            'place_of_birth'    => 'required|string|max:100',
-            'date_of_birth'     => 'required|string|max:50',
+            'full_name'         => 'nullable|string|max:150',
+            'phone_number'      => 'nullable|string|max:20',
+            'email_address'     => 'nullable|email|max:100',
+            'place_of_birth'    => 'nullable|string|max:100',
+            'date_of_birth'     => 'nullable|string|max:50',
             'address'           => 'nullable|string',
-            'website_url'       => 'nullable|url|max:255',
-            'short_description' => 'nullable|string|max:150',
-            'foto_profil'       => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'website_url'       => 'nullable|string|max:255',
+            'short_description' => 'nullable|string',
+            'foto_profil'       => 'nullable|string',
         ]);
-
-        $dataToSave = $validated;
-
-        // Cek apakah ada upload file foto_profil
-        if ($request->hasFile('foto_profil')) {
-            // Hapus foto lama jika ada
-            $existingDetail = $cvProject->personalDetail;
-            if ($existingDetail && $existingDetail->foto_profil) {
-                Storage::disk('public')->delete($existingDetail->foto_profil);
-            }
-
-            // Simpan foto baru
-            $path = $request->file('foto_profil')->store('profiles', 'public');
-            $dataToSave['foto_profil'] = $path;
-        } else {
-            // Jika tidak ada upload, jangan override foto yang sudah ada dengan null
-            unset($dataToSave['foto_profil']);
-        }
 
         $detail = $cvProject->personalDetail()->updateOrCreate(
             ['cv_project_id' => $cvProject->id],
-            $dataToSave
+            $validated
         );
 
         return response()->json([
