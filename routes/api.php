@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\CvEducationController;
 use App\Http\Controllers\Api\CvEmploymentHistoryController;
 use App\Http\Controllers\Api\CvOrganizationController;
@@ -27,6 +28,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+// ===== CONTACT US (Public) =====
+Route::post('/contact-messages', [ContactMessageController::class, 'store']);
 
 // ===== PROTECTED ROUTES (Butuh Login) =====
 Route::middleware('auth:sanctum')->group(function () {
@@ -81,5 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/dashboard-stats', [AdminController::class, 'dashboardStats']);
         Route::get('/users', [AdminController::class, 'getUsers']);
         Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
+        Route::get('/contact-messages', [ContactMessageController::class, 'index']);
+        Route::delete('/contact-messages/{id}', [ContactMessageController::class, 'destroy']);
     });
 });

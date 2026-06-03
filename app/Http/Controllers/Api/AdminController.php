@@ -26,7 +26,7 @@ class AdminController extends Controller
             'data' => [
                 'total_users' => $totalUsers,
                 'new_users_since_last_week' => $newUsersSinceLastWeek,
-                'active_templates' => 5, // We have 5 active hardcoded templates
+                'active_templates' => 1, // We only have 1 active template (Minimalist Black)
                 'total_downloads' => $totalDownloads,
             ]
         ]);
