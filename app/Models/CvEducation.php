@@ -21,9 +21,6 @@ class CvEducation extends Model
         'description',
     ];
 
-    /**
-     * Education milik satu CV project.
-     */
     public function cvProject(): BelongsTo
     {
         return $this->belongsTo(CvProject::class);

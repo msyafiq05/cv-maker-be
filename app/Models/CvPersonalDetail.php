@@ -20,9 +20,6 @@ class CvPersonalDetail extends Model
         'foto_profil',
     ];
 
-    /**
-     * Personal detail milik satu CV project.
-     */
     public function cvProject(): BelongsTo
     {
         return $this->belongsTo(CvProject::class);

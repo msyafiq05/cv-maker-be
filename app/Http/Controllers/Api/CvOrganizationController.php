@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class CvOrganizationController extends Controller
 {
-    /**
-     * Tampilkan semua organizations dari CV project.
-     */
+    // Tampilkan semua organizations dari CV project.
     public function index(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -24,9 +22,7 @@ class CvOrganizationController extends Controller
         ]);
     }
 
-    /**
-     * Tambah organization baru.
-     */
+    // Tambah organization baru.
     public function store(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -50,9 +46,7 @@ class CvOrganizationController extends Controller
         ], 201);
     }
 
-    /**
-     * Update organization.
-     */
+    // Update organization.
     public function update(Request $request, CvProject $cvProject, CvOrganization $organization): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $organization->cv_project_id !== $cvProject->id) {
@@ -76,9 +70,7 @@ class CvOrganizationController extends Controller
         ]);
     }
 
-    /**
-     * Hapus organization.
-     */
+    // Hapus organization.
     public function destroy(Request $request, CvProject $cvProject, CvOrganization $organization): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $organization->cv_project_id !== $cvProject->id) {

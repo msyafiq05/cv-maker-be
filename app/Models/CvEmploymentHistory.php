@@ -19,9 +19,6 @@ class CvEmploymentHistory extends Model
         'company_description',
     ];
 
-    /**
-     * Employment history milik satu CV project.
-     */
     public function cvProject(): BelongsTo
     {
         return $this->belongsTo(CvProject::class);

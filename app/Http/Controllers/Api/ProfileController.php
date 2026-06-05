@@ -9,9 +9,7 @@ use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
-    /**
-     * Tampilkan data profil user yang sedang login.
-     */
+    // Tampilkan data profil user yang sedang login.
     public function show(Request $request): JsonResponse
     {
         return response()->json([
@@ -19,12 +17,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update profil user yang sedang login.
-     */
+    // Update profil user yang sedang login.
     public function update(Request $request): JsonResponse
     {
-        /** @var \App\Models\User $user */
         $user = $request->user();
 
         $validated = $request->validate([
@@ -36,7 +31,7 @@ class ProfileController extends Controller
             'skills'       => 'nullable|string|max:1000',
             'about'        => 'nullable|string|max:2000',
             'social_media' => 'nullable|string|max:255',
-            'avatar'       => 'nullable|string',   // base64 data URI
+            'avatar'       => 'nullable|string',
             'password'     => ['nullable', 'confirmed', Password::min(8)],
         ]);
 

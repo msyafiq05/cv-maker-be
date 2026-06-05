@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class CvProjectController extends Controller
 {
-    /**
-     * Tampilkan semua CV projects milik user yang login.
-     */
+    // Tampilkan semua CV projects milik user yang login.
     public function index(Request $request): JsonResponse
     {
         $projects = $request->user()
@@ -24,9 +22,7 @@ class CvProjectController extends Controller
         ]);
     }
 
-    /**
-     * Buat CV project baru.
-     */
+    // Buat CV project baru.
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -43,9 +39,7 @@ class CvProjectController extends Controller
         ], 201);
     }
 
-    /**
-     * Tampilkan detail satu CV project beserta semua relasinya.
-     */
+    // Tampilkan detail satu CV project beserta semua relasinya.
     public function show(Request $request, CvProject $cvProject): JsonResponse
     {
         // Pastikan user hanya bisa lihat miliknya sendiri
@@ -66,9 +60,7 @@ class CvProjectController extends Controller
         ]);
     }
 
-    /**
-     * Update CV project (judul / template).
-     */
+    // Update CV project (judul / template).
     public function update(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -87,9 +79,7 @@ class CvProjectController extends Controller
         ]);
     }
 
-    /**
-     * Hapus CV project (cascade delete semua section).
-     */
+    // Hapus CV project (cascade delete semua section).
     public function destroy(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -103,12 +93,10 @@ class CvProjectController extends Controller
         ]);
     }
 
-    /**
-     * Increment download count.
-     */
+    // Increment download count.
     public function incrementDownload(Request $request, CvProject $cvProject): JsonResponse
     {
-        // Allowed even if not owner, or we can restrict it. Usually anyone can download their own.
+        
         if ($cvProject->user_id !== $request->user()->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }

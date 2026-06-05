@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CvPersonalDetailController extends Controller
 {
-    /**
-     * Tampilkan / buat personal detail dari CV project.
-     */
+    // Tampilkan personal detail dari CV project.
     public function show(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -24,9 +22,7 @@ class CvPersonalDetailController extends Controller
         ]);
     }
 
-    /**
-     * Simpan atau update personal detail (upsert).
-     */
+    // Simpan atau update personal detail.
     public function upsert(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {

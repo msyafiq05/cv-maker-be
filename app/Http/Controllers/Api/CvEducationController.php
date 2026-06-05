@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class CvEducationController extends Controller
 {
-    /**
-     * Tampilkan semua education dari CV project.
-     */
+    // Tampilkan semua education dari CV project.
     public function index(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -24,9 +22,7 @@ class CvEducationController extends Controller
         ]);
     }
 
-    /**
-     * Tambah education baru.
-     */
+    // Tambah education baru.
     public function store(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -52,9 +48,7 @@ class CvEducationController extends Controller
         ], 201);
     }
 
-    /**
-     * Update education.
-     */
+    // Update education.
     public function update(Request $request, CvProject $cvProject, CvEducation $education): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $education->cv_project_id !== $cvProject->id) {
@@ -80,9 +74,7 @@ class CvEducationController extends Controller
         ]);
     }
 
-    /**
-     * Hapus education.
-     */
+    // Hapus education.
     public function destroy(Request $request, CvProject $cvProject, CvEducation $education): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $education->cv_project_id !== $cvProject->id) {

@@ -13,9 +13,7 @@ use App\Mail\ResetPasswordOtpMail;
 
 class AuthController extends Controller
 {
-    /**
-     * Register user baru (Manual).
-     */
+    // Registrasi user
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -41,9 +39,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login user (Manual).
-     */
+    // Login user
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -57,7 +53,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        /** @var \App\Models\User $user */
+        // @var \App\Models\User $user
         $user  = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -68,9 +64,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user.
-     */
+    // Logout user
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
@@ -80,9 +74,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Get data user.
-     */
+    // Ambil data user
     public function me(Request $request): JsonResponse
     {
         return response()->json([
@@ -90,21 +82,19 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Forgot Password (Kirim OTP).
-     */
+    // Lupa Password (Kirim OTP)
     public function forgotPassword(Request $request): JsonResponse
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
         
         $user = User::where('email', $request->email)->first();
+
         
-        // Generate 6 digit OTP
         $otp = sprintf("%06d", mt_rand(1, 999999));
         
         $user->update(['reset_token' => $otp]);
         
-        // Kirim email ke user
+
         try {
             Mail::to($user->email)->send(new ResetPasswordOtpMail($otp));
         } catch (\Exception $e) {
@@ -114,18 +104,16 @@ class AuthController extends Controller
             ], 500);
         }
         
-        // Untuk tahap trial & error, log OTP-nya agar bisa dilihat dari terminal
+
         \Illuminate\Support\Facades\Log::info("OTP Reset Password untuk {$user->email} adalah: {$otp}");
         
         return response()->json([
             'message' => 'OTP telah dikirim ke email.',
-            'dev_otp' => $otp // Mempermudah trial & error dari frontend (Network tab)
+            'dev_otp' => $otp
         ]);
     }
 
-    /**
-     * Reset Password.
-     */
+    // Reset Password
     public function resetPassword(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -141,7 +129,7 @@ class AuthController extends Controller
             ], 400);
         }
 
-        // Update password dan hapus token
+        
         $user->update([
             'password' => $validated['password'],
             'reset_token' => null

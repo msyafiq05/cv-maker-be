@@ -17,9 +17,6 @@ class CvOrganization extends Model
         'description',
     ];
 
-    /**
-     * Organization milik satu CV project.
-     */
     public function cvProject(): BelongsTo
     {
         return $this->belongsTo(CvProject::class);

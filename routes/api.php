@@ -13,26 +13,18 @@ use App\Http\Controllers\Api\AdminController;
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Route untuk CV Maker API.
-| Prefix: /api (otomatis dari Laravel)
-|
-*/
 
-// ===== AUTH (Public) =====
+
+// AUTH (Public)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-// ===== CONTACT US (Public) =====
+// CONTACT US (Public)
 Route::post('/contact-messages', [ContactMessageController::class, 'store']);
 
-// ===== PROTECTED ROUTES (Butuh Login) =====
+// PROTECTED ROUTES
 Route::middleware('auth:sanctum')->group(function () {
 
     // Auth
@@ -43,44 +35,44 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
 
-    // CV Projects (CRUD)
+    // CV Projects
     Route::apiResource('cv-projects', CvProjectController::class)
         ->parameters(['cv-projects' => 'cvProject']);
     Route::post('cv-projects/{cvProject}/download', [CvProjectController::class, 'incrementDownload']);
 
-    // CV Sections (nested di bawah cv-projects)
+    // CV Sections
     Route::prefix('cv-projects/{cvProject}')->group(function () {
 
-        // Personal Detail (1-to-1, pakai upsert)
+        // Personal Detail
         Route::get('/personal-detail', [CvPersonalDetailController::class, 'show']);
         Route::post('/personal-detail', [CvPersonalDetailController::class, 'upsert']);
 
-        // Employment History (1-to-many)
+        // Employment History
         Route::get('/employments', [CvEmploymentHistoryController::class, 'index']);
         Route::post('/employments', [CvEmploymentHistoryController::class, 'store']);
         Route::put('/employments/{employment}', [CvEmploymentHistoryController::class, 'update']);
         Route::delete('/employments/{employment}', [CvEmploymentHistoryController::class, 'destroy']);
 
-        // Education (1-to-many)
+        // Education
         Route::get('/educations', [CvEducationController::class, 'index']);
         Route::post('/educations', [CvEducationController::class, 'store']);
         Route::put('/educations/{education}', [CvEducationController::class, 'update']);
         Route::delete('/educations/{education}', [CvEducationController::class, 'destroy']);
 
-        // Skills (1-to-many)
+        // Skills
         Route::get('/skills', [CvSkillController::class, 'index']);
         Route::post('/skills', [CvSkillController::class, 'store']);
         Route::put('/skills/{skill}', [CvSkillController::class, 'update']);
         Route::delete('/skills/{skill}', [CvSkillController::class, 'destroy']);
 
-        // Organizations (1-to-many)
+        // Organizations
         Route::get('/organizations', [CvOrganizationController::class, 'index']);
         Route::post('/organizations', [CvOrganizationController::class, 'store']);
         Route::put('/organizations/{organization}', [CvOrganizationController::class, 'update']);
         Route::delete('/organizations/{organization}', [CvOrganizationController::class, 'destroy']);
     });
-    
-    // ===== ADMIN ROUTES =====
+
+    // ADMIN ROUTES
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard-stats', [AdminController::class, 'dashboardStats']);
         Route::get('/users', [AdminController::class, 'getUsers']);

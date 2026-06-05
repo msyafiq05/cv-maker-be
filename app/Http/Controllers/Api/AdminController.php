@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    /**
-     * Get dashboard statistics
-     */
+    // ngambil data dashboard
     public function dashboardStats()
     {
         $totalUsers = User::where('role', 'user')->count();
@@ -26,15 +24,13 @@ class AdminController extends Controller
             'data' => [
                 'total_users' => $totalUsers,
                 'new_users_since_last_week' => $newUsersSinceLastWeek,
-                'active_templates' => 1, // We only have 1 active template (Minimalist Black)
+                'active_templates' => 1,
                 'total_downloads' => $totalDownloads,
             ]
         ]);
     }
 
-    /**
-     * Get user list with optional search
-     */
+    // Ambil data user
     public function getUsers(Request $request)
     {
         $query = User::where('role', 'user')->withCount('cvProjects');
@@ -64,9 +60,7 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * Delete a user
-     */
+    // Hapus data user
     public function deleteUser($id)
     {
         $user = User::where('role', 'user')->find($id);
@@ -78,7 +72,6 @@ class AdminController extends Controller
             ], 404);
         }
 
-        // The user's cv projects will be deleted automatically due to cascade on delete in DB
         $user->delete();
 
         return response()->json([

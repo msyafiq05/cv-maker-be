@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class CvEmploymentHistoryController extends Controller
 {
-    /**
-     * Tampilkan semua employment history dari CV project.
-     */
+    // Tampilkan semua employment history dari CV project.
     public function index(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -24,9 +22,7 @@ class CvEmploymentHistoryController extends Controller
         ]);
     }
 
-    /**
-     * Tambah employment history baru.
-     */
+    // Tambah employment history baru.
     public function store(Request $request, CvProject $cvProject): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id) {
@@ -50,9 +46,7 @@ class CvEmploymentHistoryController extends Controller
         ], 201);
     }
 
-    /**
-     * Update employment history.
-     */
+    // Update employment history.
     public function update(Request $request, CvProject $cvProject, CvEmploymentHistory $employment): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $employment->cv_project_id !== $cvProject->id) {
@@ -76,9 +70,7 @@ class CvEmploymentHistoryController extends Controller
         ]);
     }
 
-    /**
-     * Hapus employment history.
-     */
+    // Hapus employment history.
     public function destroy(Request $request, CvProject $cvProject, CvEmploymentHistory $employment): JsonResponse
     {
         if ($cvProject->user_id !== $request->user()->id || $employment->cv_project_id !== $cvProject->id) {

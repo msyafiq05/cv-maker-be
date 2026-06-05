@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    /**
-     * Simpan pesan dari form Contact Us.
-     * Route ini PUBLIC (tidak perlu login).
-     */
+    // Simpan pesan dari form Contact Us
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -30,9 +27,7 @@ class ContactMessageController extends Controller
         ], 201);
     }
 
-    /**
-     * Ambil semua pesan kontak (untuk admin).
-     */
+    // Ambil semua pesan kontak
     public function index(): JsonResponse
     {
         $messages = ContactMessage::orderBy('created_at', 'desc')->get();
@@ -41,9 +36,8 @@ class ContactMessageController extends Controller
             'data' => $messages,
         ]);
     }
-    /**
-     * Hapus pesan kontak (untuk admin).
-     */
+
+    // Hapus pesan kontak
     public function destroy($id): JsonResponse
     {
         $message = ContactMessage::find($id);
